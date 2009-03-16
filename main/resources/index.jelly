@@ -1,5 +1,0 @@
-<div>
-  This plugin transforms Gallio test reports so they can be recorded by Hudson's JUnit features.
-  The Gallio project could run mbunit, nunit, mstest and many more test.
-  See http://www.gallio.org/ for details
-</div>
