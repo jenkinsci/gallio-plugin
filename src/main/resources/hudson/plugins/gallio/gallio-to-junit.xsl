@@ -41,8 +41,20 @@
 												<!--for Gallio/Nunit-->
 												<xsl:value-of select="a:testLog/a:streams/a:stream/a:body/a:contents/a:section/a:contents/a:text"/>
 												<!--for Gallio/Mbunit-->
+												<!--ExceptionMessage Gallio 3.0.6 !?!-->
+                        <xsl:for-each select="a:testLog/a:streams/a:stream/a:body/a:contents/a:section/a:contents/a:marker/a:contents/a:marker">
+														<xsl:if test="@class = 'ExceptionType'">
+															<xsl:value-of select="a:contents/a:text"/>
+														</xsl:if>
+                        </xsl:for-each>
+												<xsl:value-of select="a:testLog/a:streams/a:stream/a:body/a:contents/a:section/a:contents/a:marker/a:contents/a:text"/>
+                        <xsl:for-each select="a:testLog/a:streams/a:stream/a:body/a:contents/a:section/a:contents/a:marker/a:contents/a:marker">
+														<xsl:if test="@class = 'ExceptionMessage'">
+															<xsl:value-of select="a:contents/a:text"/>
+														</xsl:if>
+                        </xsl:for-each>
 												<!--ExceptionMessage-->
-												<xsl:for-each select="a:testLog/a:streams/a:stream/a:body/a:contents/a:marker/a:contents/a:marker">
+                        <xsl:for-each select="a:testLog/a:streams/a:stream/a:body/a:contents/a:marker/a:contents/a:marker">
 														<xsl:if test="@class = 'ExceptionMessage'">
 															<xsl:value-of select="a:contents/a:text"/>
 														</xsl:if>
@@ -54,9 +66,20 @@
 												</xsl:for-each>
 												<xsl:value-of select="a:testLog/a:streams/a:stream/a:body/a:contents/a:marker/a:contents/a:section/a:contents/a:marker/a:contents/a:text"/>
 											</xsl:attribute>
+											<!--=====StackTrace=====-->
 											<!--for Gallio/Nunit-->
 											<xsl:value-of select="a:testLog/a:streams/a:stream/a:body/a:contents/a:section/a:contents/a:marker/a:contents/a:text"/>
 											<!--for Gallio/Mbunit-->
+												<!--ExceptionMessage Gallio 3.0.6 !?!-->
+														<xsl:for-each select="a:testLog/a:streams/a:stream/a:body/a:contents/a:section/a:contents/a:marker/a:contents/a:marker" >
+                            <xsl:if test="@class = 'StackTrace'">
+						   								<xsl:value-of select="a:contents/a:text"/>
+                              <xsl:for-each select="a:contents/a:marker">
+							   								<xsl:value-of select="a:contents/a:text"/>
+        											</xsl:for-each>
+														</xsl:if>
+     											</xsl:for-each>
+												<!--StackTrace Gallio 3.0.5-->
 											<xsl:for-each select="a:testLog/a:streams/a:stream/a:body/a:contents/a:marker/a:contents/a:marker">
 													<xsl:if test="@class = 'StackTrace'">
 														<xsl:value-of select="a:contents/a:text"/>
