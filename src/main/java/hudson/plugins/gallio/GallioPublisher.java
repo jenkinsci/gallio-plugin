@@ -107,8 +107,7 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
             }
             
         } catch (TransformerException te) {
-            throw new AbortException("Could not read the XSL XML file. Please report this issue to the plugin author",
-                    te);
+            throw new AbortException("Could not read the XSL XML file. Please report this issue to the plugin author");
         }
 
         return result;
