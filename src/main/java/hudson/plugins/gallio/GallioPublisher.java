@@ -3,7 +3,7 @@ package hudson.plugins.gallio;
 import hudson.Launcher;
 import hudson.Util;
 import hudson.FilePath.FileCallable;
-import hudson.maven.agent.AbortException;
+import hudson.AbortException;
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.BuildListener;
