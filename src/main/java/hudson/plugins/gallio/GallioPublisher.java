@@ -4,13 +4,17 @@ import hudson.Launcher;
 import hudson.Util;
 import hudson.FilePath.FileCallable;
 import hudson.AbortException;
+import hudson.Extension;
 import hudson.model.AbstractBuild;
+import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.BuildListener;
-import hudson.model.Descriptor;
 import hudson.model.Result;
 import hudson.remoting.VirtualChannel;
+import hudson.tasks.BuildStepDescriptor;
+import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Publisher;
+import hudson.tasks.Recorder;
 import hudson.tasks.junit.TestResult;
 import hudson.tasks.junit.TestResultAction;
 import hudson.tasks.test.TestResultProjectAction;
@@ -21,8 +25,8 @@ import java.io.Serializable;
 
 import javax.xml.transform.TransformerException;
 
+import net.sf.json.JSONObject;
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -31,13 +35,11 @@ import org.kohsuke.stapler.StaplerRequest;
  * 
  * @author Erik Ramfelt
  */
-public class GallioPublisher extends hudson.tasks.Publisher implements Serializable {
+public class GallioPublisher extends Recorder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private static transient final String PLUGIN_GALLIO = "/plugin/gallio/";
-
-    public static final Descriptor<Publisher> DESCRIPTOR = new DescriptorImpl();
 
     private String testResultsPattern;
     private boolean debug = false;
@@ -69,8 +71,12 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
         return skipJUnitArchiver;
     }
 
+    public BuildStepMonitor getRequiredMonitorService() {
+        return BuildStepMonitor.NONE;
+    }
+
     @Override
-    public Action getProjectAction(hudson.model.Project project) {
+    public Action getProjectAction(AbstractProject<?, ?> project) {
         TestResultProjectAction action = project.getAction(TestResultProjectAction.class);
         if (action == null) {
             return new TestResultProjectAction(project);
@@ -89,7 +95,7 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
         try {
             listener.getLogger().println("Recording Gallio tests results");
             GallioArchiver transformer = new GallioArchiver(listener, testResultsPattern, new GallioReportTransformer());
-            result = build.getProject().getWorkspace().act(transformer);
+            result = build.getWorkspace().act(transformer);
 
             if (result) {
                 if (skipJUnitArchiver) {
@@ -102,7 +108,7 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
                 if (keepJUnitReports) {
                     listener.getLogger().println("Skipping deletion of temporary JUnit reports.");
                 } else {
-                    build.getProject().getWorkspace().child(GallioArchiver.JUNIT_REPORTS_PATH).deleteRecursive();
+                    build.getWorkspace().child(GallioArchiver.JUNIT_REPORTS_PATH).deleteRecursive();
                 }
             }
             
@@ -177,7 +183,7 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
      */
     private TestResult getTestResult(final String junitFilePattern, AbstractBuild<?, ?> build,
             final TestResult existingTestResults, final long buildTime) throws IOException, InterruptedException {
-        TestResult result = build.getProject().getWorkspace().act(new FileCallable<TestResult>() {
+        TestResult result = build.getWorkspace().act(new FileCallable<TestResult>() {
             public TestResult invoke(File ws, VirtualChannel channel) throws IOException {
                 FileSet fs = Util.createFileSet(ws,junitFilePattern);
                 DirectoryScanner ds = fs.getDirectoryScanner();
@@ -198,13 +204,10 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
         return result;
     }
 
-    public Descriptor<Publisher> getDescriptor() {
-        return DESCRIPTOR;
-    }
+    @Extension
+    public static class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
-    public static class DescriptorImpl extends Descriptor<Publisher> {
-
-        protected DescriptorImpl() {
+        public DescriptorImpl() {
             super(GallioPublisher.class);
         }
 
@@ -219,7 +222,12 @@ public class GallioPublisher extends hudson.tasks.Publisher implements Serializa
         }
 
         @Override
-        public Publisher newInstance(StaplerRequest req) throws FormException {
+        public boolean isApplicable(Class<? extends AbstractProject> jobType) {
+            return true;
+        }
+
+        @Override
+        public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
             return new GallioPublisher(req.getParameter("gallio_reports.pattern"), 
                     (req.getParameter("gallio_reports.debug") != null), 
                     (req.getParameter("gallio_reports.keepjunitreports") != null), 

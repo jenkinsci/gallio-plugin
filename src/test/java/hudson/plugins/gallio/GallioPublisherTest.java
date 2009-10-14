@@ -1,10 +1,7 @@
 package hudson.plugins.gallio;
 
-import java.io.File;
-import java.io.InputStream;
-
+import hudson.model.AbstractProject;
 import hudson.model.Action;
-import hudson.model.Project;
 import hudson.tasks.test.TestResultProjectAction;
 
 import org.jmock.Expectations;
@@ -18,7 +15,7 @@ import org.junit.Test;
 public class GallioPublisherTest {
 
     private Mockery classContext;
-    private Project project;
+    private AbstractProject project;
 
     @Before
     public void setUp() throws Exception {
@@ -27,7 +24,7 @@ public class GallioPublisherTest {
                 setImposteriser(ClassImposteriser.INSTANCE);
             }
         };
-        project = classContext.mock(Project.class);
+        project = classContext.mock(AbstractProject.class);
     }
 
     @Test
