@@ -10,9 +10,15 @@
 
 	<artifactId>gallio</artifactId>
 	<packaging>hpi</packaging>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.60-SNAPSHOT</version>
 	<name>Hudson Gallio plugin</name>
 	<url>http://wiki.hudson-ci.org/display/HUDSON/Gallio+Plugin</url>
+	<developers>
+	    <developer>
+		<id>pmiossec</id>
+		<name>Philippe Miossec</name>
+	    </developer>
+	</developers>
 	
 	<dependencies>
 		<dependency>
