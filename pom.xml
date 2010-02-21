@@ -11,7 +11,7 @@
 
     <artifactId>gallio</artifactId>
     <packaging>hpi</packaging>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.70-SNAPSHOT</version>
     <name>Hudson Gallio plugin</name>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Gallio+Plugin</url>
     
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.jvnet.hudson.plugins</groupId>
             <artifactId>xunit</artifactId>
-            <version>0.6-SNAPSHOT</version>
+            <version>0.6</version>
         </dependency>
 
         <dependency>
@@ -59,4 +59,26 @@
         </dependency>
 
     </dependencies>
+
+        <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Abstract*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jvnet.hudson.tools</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <compatibleSinceVersion>0.70</compatibleSinceVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
