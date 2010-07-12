@@ -1,42 +1,27 @@
 package hudson.plugins.gallio;
 
+import com.thalesgroup.dtkit.metrics.hudson.api.descriptor.TestTypeDescriptor;
 import com.thalesgroup.hudson.plugins.xunit.types.XUnitType;
-import com.thalesgroup.hudson.plugins.xunit.types.XUnitTypeDescriptor;
-import hudson.Extension;
-import org.kohsuke.stapler.DataBoundConstructor;
 
 
+@SuppressWarnings("unused")
 public class GallioType extends XUnitType {
 
-
-    @DataBoundConstructor
     public GallioType(String pattern, boolean faildedIfNotNew, boolean deleteJUnitFiles) {
         super(pattern, faildedIfNotNew, deleteJUnitFiles);
     }
 
-    public String getXsl() {
-        return "gallio-to-junit.xsl";
+    public TestTypeDescriptor getDescriptor() {
+        return null;
     }
 
-    public XUnitTypeDescriptor<?> getDescriptor() {
-        return new GallioType.DescriptorImpl();
-    }
-
-    @Extension
-    public static class DescriptorImpl extends XUnitTypeDescriptor<GallioType> {
-
-        public DescriptorImpl() {
-            super(GallioType.class);
-        }
-
-        @Override
-        public String getDisplayName() {
-            return Messages.gallio_label();
-        }
-
-        public String getId() {
-            return "gallio";
-        }
-
+    /**
+     * Call at Hudson startup for backward compatibility
+     *
+     * @return an new hudson object
+     */
+    public Object readResolve() {
+        return new GallioPluginType(this.getPattern(), this.isFaildedIfNotNew(), this.isDeleteJUnitFiles());
     }
 }
+

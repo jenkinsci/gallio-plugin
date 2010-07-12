@@ -1,28 +1,18 @@
 package hudson.plugins.gallio;
 
-import com.thalesgroup.hudson.plugins.xunit.types.XUnitType;
+import com.thalesgroup.dtkit.metrics.api.InputMetricXSL;
+import com.thalesgroup.dtkit.util.converter.ConvertUtil;
 import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.Transform;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.junit.Assert;
+import org.junit.Before;
 
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-
-import static org.junit.Assert.assertTrue;
+import java.io.File;
 
 
 public class AbstractXUnitXSLTest {
 
-    private Class<? extends XUnitType> type;
-
-    protected AbstractXUnitXSLTest(Class<? extends XUnitType> type) {
-        this.type = type;
-        setUp();
-    }
-
+    @Before
     public void setUp() {
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setNormalizeWhitespace(true);
@@ -30,20 +20,22 @@ public class AbstractXUnitXSLTest {
     }
 
 
-    protected void processTransformation(String source, String target)
-            throws IllegalAccessException, InstantiationException, IOException, TransformerException, SAXException {
+    public void convertAndValidate(Class<? extends InputMetricXSL> classType, String inputXMLPath, String expectedResultPath) throws Exception {
+        InputMetricXSL inputMetricXSL = classType.newInstance();
+        File outputXMLFile = File.createTempFile("result", "xml");
+        File inputXMLFile = new File(this.getClass().getResource(inputXMLPath).toURI());
 
-        try {
-            Constructor typeContructor = type.getConstructors()[0];
-            Transform myTransform = new Transform(new InputSource(
-                    type.getResourceAsStream(source)), new InputSource(type.getResourceAsStream(((XUnitType) typeContructor.newInstance("default", true, true)).getXsl())));
-            Diff myDiff = new Diff(XUnitXSLUtil.readXmlAsString(target), myTransform);
-            assertTrue("XSL transformation did not work" + myDiff, myDiff.similar());
+        //The input file must be valid
+        Assert.assertTrue(inputMetricXSL.validateInputFile(inputXMLFile));
 
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            assertTrue(false);
-        }
+        ConvertUtil.convert(inputMetricXSL.getClass(), inputMetricXSL.getXslName(), inputXMLFile, outputXMLFile);
+        Diff myDiff = new Diff(XSLUtil.readXmlAsString(new File(this.getClass().getResource(expectedResultPath).toURI())), XSLUtil.readXmlAsString(outputXMLFile));
+        Assert.assertTrue("XSL transformation did not work" + myDiff, myDiff.similar());
+
+        //The generated output file must be valid
+        Assert.assertTrue(inputMetricXSL.validateOutputFile(outputXMLFile));
+
+        outputXMLFile.deleteOnExit();
     }
 
 }
