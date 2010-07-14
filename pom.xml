@@ -10,7 +10,7 @@
 
     <artifactId>gallio</artifactId>
     <packaging>hpi</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>Hudson Gallio plugin</name>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Gallio+Plugin</url>
     
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.jvnet.hudson.plugins</groupId>
             <artifactId>xunit</artifactId>
-            <version>1.4</version>
+            <version>1.6</version>
         </dependency>
 
         <dependency>
@@ -80,4 +80,10 @@
             </plugin>
         </plugins>
     </build>
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/gallio-1.0</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/gallio-1.0</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/tags/gallio-1.0</url>
+  </scm>
 </project>
