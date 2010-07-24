@@ -4,19 +4,15 @@ import com.thalesgroup.dtkit.metrics.api.InputMetric;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import static org.mockito.Mockito.anyBoolean;
 import static org.mockito.Mockito.anyString;
 
 public class GallioTypeTest {
 
-    @Test
-    public void backwardCompatibility() throws Exception {
+    private void backwardCompatibility(String pattern, boolean faildedIfNotNew, boolean deleteJUnitFiles) throws Exception {
 
-        Constructor c = GallioType.class.getConstructor(String.class, boolean.class, boolean.class);
-        GallioType gallioType = (GallioType) c.newInstance(anyString(), anyBoolean(), anyBoolean());
+        GallioType gallioType = new GallioType(pattern, faildedIfNotNew, deleteJUnitFiles);
 
         //Test new descriptor
         Assert.assertNull(gallioType.getDescriptor());
@@ -35,5 +31,25 @@ public class GallioTypeTest {
 
         InputMetric inputMetric = gallioPluginType.getInputMetric();
         Assert.assertNotNull(inputMetric);
+    }
+
+    @Test
+    public void test1() throws Exception {
+        backwardCompatibility(anyString(), true, true);
+    }
+
+    @Test
+    public void test2() throws Exception {
+        backwardCompatibility(anyString(), true, false);
+    }
+
+    @Test
+    public void test3() throws Exception {
+        backwardCompatibility(anyString(), false, true);
+    }
+
+    @Test
+    public void test4() throws Exception {
+        backwardCompatibility(anyString(), false, false);
     }
 }
