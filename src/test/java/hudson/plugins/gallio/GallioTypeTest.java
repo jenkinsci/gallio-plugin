@@ -1,6 +1,6 @@
 package hudson.plugins.gallio;
 
-import com.thalesgroup.dtkit.metrics.api.InputMetric;
+import com.thalesgroup.dtkit.metrics.model.InputMetric;
 import org.junit.Assert;
 import org.junit.Test;
 
