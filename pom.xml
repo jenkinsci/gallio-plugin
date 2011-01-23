@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -11,7 +10,7 @@
 
     <artifactId>gallio</artifactId>
     <packaging>hpi</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <name>Hudson Gallio plugin</name>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Gallio+Plugin</url>
 
@@ -23,10 +22,11 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:https://gbois@svn.java.net/svn/hudson~svn/trunk/hudson/plugins/gallio</connection>
-        <developerConnection>scm:svn:https://svn.java.net/svn/hudson~svn/trunk/hudson/plugins/gallio
+        <connection>scm:svn:https://gbois@svn.java.net/svn/hudson~svn/tags/gallio-1.2</connection>
+        <developerConnection>scm:svn:https://svn.java.net/svn/hudson~svn/tags/gallio-1.2
         </developerConnection>
-    </scm>
+      <url>https://hudson.dev.java.net/source/browse/hudson/tags/gallio-1.2</url>
+  </scm>
 
     <developers>
         <developer>
