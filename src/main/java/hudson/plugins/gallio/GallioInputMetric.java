@@ -29,7 +29,7 @@ public class GallioInputMetric extends InputMetricXSL {
     }
 
     @Override
-    public String getInputXsd() {
+    public String[] getInputXsdNameList() {
         return null;
     }
 
