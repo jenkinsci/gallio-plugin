@@ -25,7 +25,7 @@ public class GallioInputMetric extends InputMetricXSL {
 
     @Override
     public String getXslName() {
-        return "gallio-1.0-to-junit-1.0.xsl";
+        return "gallio-1.1-to-junit-1.0.xsl";
     }
 
     @Override
