@@ -21,7 +21,7 @@ public class GallioType extends XUnitType {
      * @return an new hudson object
      */
     public Object readResolve() {
-        return new GallioPluginType(this.getPattern(), this.isFaildedIfNotNew(), this.isDeleteJUnitFiles());
+        return new GallioPluginType(this.getPattern(), this.isFaildedIfNotNew(), this.isDeleteJUnitFiles(), true);
     }
 }
 

@@ -8,8 +8,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 public class GallioPluginType extends TestType {
 
     @DataBoundConstructor
-    public GallioPluginType(String pattern, boolean faildedIfNotNew, boolean deleteOutputFiles) {
-        super(pattern, faildedIfNotNew, deleteOutputFiles);
+    public GallioPluginType(String pattern, boolean faildedIfNotNew, boolean deleteOutputFiles, boolean stopProcessingIfError) {
+        super(pattern, faildedIfNotNew, deleteOutputFiles, stopProcessingIfError);
     }
 
     public TestTypeDescriptor<?> getDescriptor() {
