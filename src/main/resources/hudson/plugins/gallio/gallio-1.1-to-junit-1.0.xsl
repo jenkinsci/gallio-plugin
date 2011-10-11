@@ -1,5 +1,5 @@
 <?xml version='1.0' ?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:a="http://www.gallio.org/">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:a="http://www.gallio.org/" xmlns:functx="http://www.functx.com">
   <xsl:template match="/">
     <xsl:for-each select="a:report/a:testPackageRun">
       <testsuites>
@@ -109,6 +109,30 @@
               </xsl:for-each>
             </failure>
           </xsl:if>
+          
+          <!-- BEGIN OF PATCH #1.1 -->
+          
+          <!-- GOAL: display the standard output when succeeded -->
+          <xsl:if test="a:result/a:outcome/@status = 'passed'">
+            <system-out>
+              <!-- for each stream -->
+              <xsl:for-each select="a:testLog/a:streams/a:stream">
+                <!-- start a new line -->
+                <xsl:text>&#13;&#10;</xsl:text>
+                <!-- display the new section with the stream name -->
+                <xsl:text>------------------------- </xsl:text>
+                <xsl:value-of select="functx:camel-case-to-words(@name)"/>
+                <xsl:text> -------------------------</xsl:text>
+                <!-- end the line -->
+                <xsl:text>&#13;&#10;</xsl:text>
+                <!-- display the stream output -->
+                <xsl:value-of select="a:body/a:contents/a:text"/>
+              </xsl:for-each>
+            </system-out>
+          </xsl:if>
+          
+          <!-- END OF PATCH #1.1 -->
+          
         </testcase>
       </xsl:if>
     </xsl:for-each>
@@ -120,7 +144,17 @@
     <xsl:apply-templates select="a:children/a:testStepRun" />
   </xsl:template>
     
-  </xsl:stylesheet>
+  <!-- BEGIN OF PATCH #1.2 -->
+     
+  <!-- function to split a camel-case string into words (eg. "ConsoleOutput" becomes "Console Output") -->
+  <xsl:function name="functx:camel-case-to-words" as="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xsl:param name="arg" as="xs:string?"/>
+    <xsl:sequence select="concat(substring($arg,1,1), replace(substring($arg,2),'(\p{Lu})', concat(' ', '$1')))"/>
+  </xsl:function>
+  
+  <!-- END OF PATCH #1.2 -->
+
+</xsl:stylesheet>
 <!-- Stylus Studio meta-information - (c) 2004-2008. Progress Software Corporation. All rights reserved.
 
 <metaInformation>
