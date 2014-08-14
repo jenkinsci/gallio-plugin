@@ -4,7 +4,6 @@ import org.junit.Test;
 
 public class GallioXSLTest extends AbstractXUnitXSLTest {
 
-
     @Test
     public void testTransformation() throws Exception {
         convertAndValidate(GallioInputMetric.class, "Gallio-simple.xml", "JUnit-simple.xml");
@@ -18,6 +17,11 @@ public class GallioXSLTest extends AbstractXUnitXSLTest {
     @Test
     public void testTransformedIssue1077() throws Exception {
         convertAndValidate(GallioInputMetric.class, "Gallio-issue1077.xml", "JUnit-issue1077.xml");
+    }
+
+    @Test
+    public void testTransformedIssue11599() throws Exception {
+        convertAndValidate(GallioInputMetric.class, "Gallio-issue11599.xml", "JUnit-issue11599.xml");
     }
 
     @Test

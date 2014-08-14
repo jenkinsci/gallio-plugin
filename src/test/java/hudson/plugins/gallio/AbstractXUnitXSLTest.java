@@ -19,7 +19,6 @@ public class AbstractXUnitXSLTest {
         XMLUnit.setIgnoreComments(true);
     }
 
-
     public void convertAndValidate(Class<? extends InputMetric> classType, String inputXMLPath, String expectedResultPath) throws Exception {
         InputMetric inputMetric = InputMetricFactory.getInstance(classType);
         File outputXMLFile = File.createTempFile("result", "xml");
