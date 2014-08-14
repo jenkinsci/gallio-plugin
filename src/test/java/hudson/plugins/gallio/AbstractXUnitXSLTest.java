@@ -1,9 +1,9 @@
 package hudson.plugins.gallio;
 
-import com.thalesgroup.dtkit.metrics.model.InputMetric;
-import com.thalesgroup.dtkit.metrics.model.InputMetricFactory;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.jenkinsci.lib.dtkit.model.InputMetric;
+import org.jenkinsci.lib.dtkit.model.InputMetricFactory;
 import org.junit.Assert;
 import org.junit.Before;
 
