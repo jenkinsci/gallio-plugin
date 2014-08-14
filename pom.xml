@@ -26,7 +26,7 @@
             <name>Philippe Miossec</name>
             <timezone>+1</timezone>
             <roles>
-                <role>Project owner</role>
+                <role>Project creator</role>
                 <role>Project developer</role>
             </roles>
         </developer>
@@ -37,6 +37,7 @@
             <email>gregory.boissinot@gmail.com</email>
             <timezone>+1</timezone>
             <roles>
+                <role>Project owner</role>
                 <role>Project developer</role>
             </roles>
         </developer>
