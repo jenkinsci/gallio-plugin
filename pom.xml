@@ -9,7 +9,7 @@
 
     <artifactId>gallio</artifactId>
     <packaging>hpi</packaging>
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
     <name>Jenkins Gallio plugin</name>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Gallio+Plugin</url>
 
@@ -45,7 +45,7 @@
     <scm>
         <connection>scm:git:git://github.com/jenkinsci/gallio-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/gallio-plugin.git</developerConnection>
-      <tag>gallio-1.7</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
