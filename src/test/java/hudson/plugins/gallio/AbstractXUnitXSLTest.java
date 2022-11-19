@@ -30,6 +30,7 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import java.io.File;
+import java.nio.file.Files;
 
 public class AbstractXUnitXSLTest {
 
@@ -42,7 +43,7 @@ public class AbstractXUnitXSLTest {
 
     public void convertAndValidate(Class<? extends InputMetric> classType, String inputXMLPath, String expectedResultPath) throws Exception {
         InputMetric inputMetric = InputMetricFactory.getInstance(classType);
-        File outputXMLFile = File.createTempFile("result", "xml");
+        File outputXMLFile = Files.createTempFile("result", "xml").toFile();
         File inputXMLFile = new File(this.getClass().getResource(inputXMLPath).toURI());
 
         //The input file must be valid
