@@ -76,7 +76,7 @@ THE SOFTWARE.
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
-        <xunit.plugin.version>1.90</xunit.plugin.version>
+        <xunit.plugin.version>3.1.0</xunit.plugin.version>
         <junit.version>4.8.2</junit.version>
         <xmlunit.version>1.3</xmlunit.version>
         <saxon.version>9.1.0.8</saxon.version>
